@@ -1,14 +1,15 @@
-import { Field, Form } from 'formik';
 import styled from 'styled-components';
+import { ErrorMessage, Field, Form } from 'formik';
 
 export const Title = styled.h2`
   margin-bottom: 20px;
 `;
 
-export const AddContactForm = styled(Form)`
+export const StyledForm = styled(Form)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  max-width: 300px;
   padding: 12px;
   margin-bottom: 20px;
 
@@ -25,6 +26,10 @@ export const Input = styled(Field)`
 
   border-radius: 4px;
   outline-color: blue;
+`;
+
+export const StyledErrorMessage = styled(ErrorMessage)`
+  color: red;
 `;
 
 export const Button = styled.button`

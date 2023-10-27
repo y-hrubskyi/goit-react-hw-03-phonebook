@@ -1,7 +1,13 @@
-import { ErrorMessage, Formik } from 'formik';
+import { Formik } from 'formik';
 import { object, string } from 'yup';
 
-import { AddContactForm, Button, Input, Label } from './ContactForm.styled';
+import {
+  StyledForm,
+  Button,
+  Input,
+  Label,
+  StyledErrorMessage,
+} from './ContactForm.styled';
 
 const initialValues = { name: '', number: '' };
 
@@ -26,17 +32,17 @@ export const ContactForm = ({ onSubmit }) => {
       onSubmit={handleSubmit}
       validationSchema={schema}
     >
-      <AddContactForm>
+      <StyledForm>
         <Label htmlFor="name">Name</Label>
         <Input type="text" id="name" name="name" />
-        <ErrorMessage component="span" name="name" />
+        <StyledErrorMessage component="span" name="name" />
 
         <Label htmlFor="number">Number</Label>
         <Input type="tel" id="number" name="number" />
-        <ErrorMessage component="p" name="number" />
+        <StyledErrorMessage component="p" name="number" />
 
         <Button type="submit">Add contact</Button>
-      </AddContactForm>
+      </StyledForm>
     </Formik>
   );
 };

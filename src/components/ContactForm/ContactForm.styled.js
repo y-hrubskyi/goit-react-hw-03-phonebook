@@ -1,48 +1,58 @@
+import {
+  Form as FormikForm,
+  Field as FormikField,
+  ErrorMessage as FormikError,
+} from 'formik';
 import styled from 'styled-components';
-import { ErrorMessage, Field, Form } from 'formik';
 
 export const Title = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: ${p => p.theme.spacing(5)};
 `;
 
-export const StyledForm = styled(Form)`
+export const Form = styled(FormikForm)`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: 300px;
-  padding: 12px;
-  margin-bottom: 20px;
+  gap: ${p => p.theme.spacing(5)};
+  padding: ${p => p.theme.spacing(3)};
+  margin-bottom: ${p => p.theme.spacing(5)};
 
-  border: 1px solid black;
-  border-radius: 8px;
+  border: 1px solid ${p => p.theme.colors.black};
+  border-radius: ${p => p.theme.radii.md};
 `;
 
 export const Label = styled.label`
-  margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: ${p => p.theme.spacing(1)};
 `;
 
-export const Input = styled(Field)`
-  margin-bottom: 16px;
+export const Field = styled(FormikField)`
+  font: inherit;
 
-  border-radius: 4px;
-  outline-color: blue;
+  border-radius: ${p => p.theme.radii.sm};
+  outline-color: ${p => p.theme.colors.blue};
 `;
 
-export const StyledErrorMessage = styled(ErrorMessage)`
-  color: red;
+export const ErrorMessage = styled(FormikError)`
+  color: ${p => p.theme.colors.red};
+  font-size: 16px;
 `;
 
 export const Button = styled.button`
-  padding: 4px 12px;
+  display: block;
+  margin: 0 auto;
+  padding: ${p => p.theme.spacing(1)} ${p => p.theme.spacing(3)};
 
-  border-radius: 8px;
+  border-radius: ${p => p.theme.radii.md};
   background-color: transparent;
 
-  transition: color 250ms linear, background-color 250ms linear;
+  transition: ${p => p.theme.transition('color')},
+    ${p => p.theme.transition('background-color')};
 
   &:hover,
   &:focus {
-    background-color: blue;
-    color: white;
+    background-color: ${p => p.theme.colors.blue};
+    color: ${p => p.theme.colors.white};
   }
 `;

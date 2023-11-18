@@ -1,48 +1,42 @@
 import { Formik } from 'formik';
-import { object, string } from 'yup';
+import * as Yup from 'yup';
 
-import {
-  StyledForm,
-  Button,
-  Input,
-  Label,
-  StyledErrorMessage,
-} from './ContactForm.styled';
+import { Button, ErrorMessage, Field, Form, Label } from './ContactForm.styled';
 
-const initialValues = { name: '', number: '' };
-
-const nameRegex =
-  /^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$/;
-const numberRegex =
-  /\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}/;
-const schema = object({
-  name: string().matches(nameRegex).required(),
-  number: string().matches(numberRegex).required(),
+const contactsSchema = Yup.object().shape({
+  name: Yup.string().min(2, 'Too Short').required('Required'),
+  number: Yup.string().min(7, 'Must be 7 or more').required('Required'),
 });
 
-export const ContactForm = ({ onSubmit }) => {
+export const ContactForm = ({ onAdd }) => {
   const handleSubmit = (values, actions) => {
-    const isAlreadyAdded = onSubmit(values);
-    if (!isAlreadyAdded) actions.resetForm();
+    const isAlreadyAdded = onAdd(values);
+    if (!isAlreadyAdded) {
+      actions.resetForm();
+    }
   };
 
   return (
     <Formik
-      initialValues={initialValues}
+      initialValues={{ name: '', number: '' }}
       onSubmit={handleSubmit}
-      validationSchema={schema}
+      validationSchema={contactsSchema}
     >
-      <StyledForm>
-        <Label htmlFor="name">Name</Label>
-        <Input type="text" id="name" name="name" />
-        <StyledErrorMessage component="span" name="name" />
+      <Form>
+        <Label>
+          Name
+          <Field type="text" name="name" />
+          <ErrorMessage name="name" component="span" />
+        </Label>
 
-        <Label htmlFor="number">Number</Label>
-        <Input type="tel" id="number" name="number" />
-        <StyledErrorMessage component="p" name="number" />
+        <Label>
+          Number
+          <Field type="tel" name="number" />
+          <ErrorMessage name="number" component="span" />
+        </Label>
 
         <Button type="submit">Add contact</Button>
-      </StyledForm>
+      </Form>
     </Formik>
   );
 };

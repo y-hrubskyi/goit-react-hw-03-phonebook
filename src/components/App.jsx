@@ -72,10 +72,11 @@ export class App extends Component {
   };
 
   render() {
-    const { filter } = this.state;
-    const filteredContacts = this.filterContacts();
+    const { contacts, filter } = this.state;
 
+    const filteredContacts = this.filterContacts();
     const results = filteredContacts.length;
+
     let filterInfo = '';
     if (!results && !filter) filterInfo = <p>Your contact list is empty</p>;
     if (!results && filter) filterInfo = <p>Not Finded</p>;
@@ -84,20 +85,20 @@ export class App extends Component {
       <Layout>
         <GlobalStyle />
         <Toaster toastOptions={{ duration: 1500 }} />
-
         <PageTitle>Phonebook</PageTitle>
         <ContactForm onAdd={this.addContact} />
-
         <Title>Contacts</Title>
-        <Filter
-          filter={filter}
-          filterInfo={filterInfo}
-          onUpdate={this.updateFilter}
-        />
-        <ContactList
-          contacts={filteredContacts}
-          onDelete={this.deleteContact}
-        />
+        {contacts.length > 0 && (
+          <Filter filter={filter} onUpdate={this.updateFilter} />
+        )}
+        {filteredContacts.length ? (
+          <ContactList
+            contacts={filteredContacts}
+            onDelete={this.deleteContact}
+          />
+        ) : (
+          filterInfo
+        )}
       </Layout>
     );
   }

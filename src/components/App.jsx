@@ -2,7 +2,7 @@ import { Component } from 'react';
 import { nanoid } from 'nanoid';
 import toast, { Toaster } from 'react-hot-toast';
 
-import { ContactForm } from 'components/ContactForm/ContactForm';
+import { ContactAdd } from 'components/ContactAdd/ContactAdd';
 import { Filter } from 'components/Filter/Filter';
 import { ContactList } from 'components/ContactList/ContactList';
 
@@ -55,6 +55,15 @@ export class App extends Component {
     toast.success('Contact successfully added');
   };
 
+  updateContact = newContact => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.map(contact =>
+        contact.id === newContact.id ? newContact : contact
+      ),
+    }));
+    toast.success('Contact successfully updated');
+  };
+
   deleteContact = contactId => {
     this.setState(prevState => ({
       contacts: prevState.contacts.filter(contact => contact.id !== contactId),
@@ -85,8 +94,8 @@ export class App extends Component {
       <Layout>
         <GlobalStyle />
         <Toaster toastOptions={{ duration: 1500 }} />
+
         <PageTitle>Phonebook</PageTitle>
-        <ContactForm onAdd={this.addContact} />
         <Title>Contacts</Title>
         {contacts.length > 0 && (
           <Filter filter={filter} onUpdate={this.updateFilter} />
@@ -94,11 +103,13 @@ export class App extends Component {
         {filteredContacts.length ? (
           <ContactList
             contacts={filteredContacts}
+            onUpdate={this.updateContact}
             onDelete={this.deleteContact}
           />
         ) : (
           filterInfo
         )}
+        <ContactAdd onAdd={this.addContact} />
       </Layout>
     );
   }

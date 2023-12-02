@@ -1,25 +1,22 @@
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 
-import { Button, ErrorMessage, Field, Form, Label } from './ContactForm.styled';
+import { Form, Label, Field, Button, ErrorMessage } from './ContactForm.styled';
 
 const contactsSchema = Yup.object().shape({
-  name: Yup.string().min(2, 'Too Short').trim().required('Required'),
-  number: Yup.string().min(7, 'Must be 7 or more').trim().required('Required'),
+  name: Yup.string().min(2, 'Too Short').required('Required'),
+  number: Yup.string().min(7, 'Must be 7 or more').required('Required'),
 });
 
-export const ContactForm = ({ onAdd }) => {
-  const handleSubmit = (values, actions) => {
-    const isAlreadyAdded = onAdd(values);
-    if (!isAlreadyAdded) {
-      actions.resetForm();
-    }
-  };
-
+export const ContactForm = ({
+  contact: { name, number },
+  onSubmit,
+  action,
+}) => {
   return (
     <Formik
-      initialValues={{ name: '', number: '' }}
-      onSubmit={handleSubmit}
+      initialValues={{ name, number }}
+      onSubmit={onSubmit}
       validationSchema={contactsSchema}
     >
       <Form>
@@ -35,7 +32,7 @@ export const ContactForm = ({ onAdd }) => {
           <ErrorMessage name="number" component="span" />
         </Label>
 
-        <Button type="submit">Add contact</Button>
+        <Button type="submit">{action}</Button>
       </Form>
     </Formik>
   );
